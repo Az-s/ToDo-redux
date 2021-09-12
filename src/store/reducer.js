@@ -67,7 +67,7 @@ const reducer = (state = initialState, action) => {
         case DELETE_TODO:
             const id = action.index;
             let copys = state.toDoList;
-            copys.splice(id, 1);
+            copys.splice(id, -1);
             return {
                 ...state,
                 toDoList: copys,
