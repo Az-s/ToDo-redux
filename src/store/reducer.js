@@ -6,11 +6,15 @@ import {
     FETCH_COUNTER_SUCCESS,
     FETCH_COUNTER_POST,
     INCREASE,
-    SUBTRACT
+    SUBTRACT,
+    TODO_SUCCESS,
+    KEEP_NEW_TEXT,
+    POST_TODO,
+    DELETE_TODO,
 } from "./actions";
 
 const initialState = {
-    counter: 123,
+    counter: 100,
     loading: false,
     error: null,
     toDoList: [],
@@ -39,7 +43,36 @@ const reducer = (state = initialState, action) => {
         case FETCH_COUNTER_FAILURE:
             return { ...state, loading: false, error: action.payload };
         case FETCH_COUNTER_POST:
-            return {...state, loading: false };
+            return { ...state, loading: false };
+        case KEEP_NEW_TEXT:
+            newText = action.newText;
+            return state;
+        case POST_TODO:
+            let copy = state.toDoList;
+            if (copy.length !== 0) {
+                copy = [...copy, newText];
+            } else {
+                copy = [newText];
+            }
+            return {
+                ...state,
+                toDoList: copy,
+            };
+        case TODO_SUCCESS:
+            return {
+                ...state,
+                toDoList: action.toDoList,
+                loading: false,
+            };
+        case DELETE_TODO:
+            const id = action.index;
+            copy = state.toDoList;
+            copy.splice(id, 1);
+            return {
+                ...state,
+                toDoList: copy,
+                loading: true,
+            };
         default:
             return state;
     }

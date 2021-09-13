@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './Counter.css';
 import { useDispatch, useSelector } from "react-redux";
-import { add, decrease, fetchCounter, increase, saveCounter, subtract, fetchPost } from "../../store/actions";
+import { add, decrease, fetchCounter, increase, subtract, fetchPost } from "../../store/actions";
 
 
 const Counter = () => {

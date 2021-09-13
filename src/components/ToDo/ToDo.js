@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Box, Container, CssBaseline, Button } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-import { nanoid } from 'nanoid';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchList, postNewTask , deleteToDoList , deleteTask , fetchPost , addNewTask, keepNewText} from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,33 +18,37 @@ const useStyles = makeStyles((theme) => ({
 const ToDo = () => {
     const classes = useStyles();
 
-    const [items, setItems] = useState({
-        name: ''
-    });
+    const dispatch = useDispatch();
+    const toDoList = useSelector(state => state.toDoList);
 
-    const addItem = (e) => {
-        e.preventDefault();
-        setItems([
-            // ...item,
-            {
-                items,
-                id: nanoid(),
-            }
-        ]);
-        setItems('');
+    // useEffect(() => {
+    //     dispatch(fetchList());
+    // }, [dispatch]);
+
+    const postNewTask = () => {
+        dispatch(postNewTask());
+        dispatch(fetchPost());
     };
 
-    const removeITem = (id) => {
-        const index = items.findIndex(i => i.id === id);
-        const itemsCopy = [...items];
-        itemsCopy.splice(index, 1);
-        setItems(itemsCopy);
+    const keepNewText = (e) => {
+        dispatch(keepNewText(e.currentTarget.value));
     };
+    
+    const addNewTask = () => {
+        dispatch(addNewTask());
+        dispatch(postNewTask());
+    };
+    
+    const deleteToDoList = (e) => {
+        dispatch(deleteTask(e.currentTarget.id));
+        dispatch(deleteToDoList());
+    };
+
 
     return (
         <Container maxWidth='md' className={classes.root}>
             <CssBaseline />
-            <form onSubmit={addItem}>
+            <form onSubmit={addNewTask}>
                 <Grid
                     container
                     spacing={2}
@@ -54,38 +59,38 @@ const ToDo = () => {
                         <TextField
                             label="Task"
                             variant="outlined"
-                            value={items}
-                            onChange={e => setItems(e.target.value)}
+                            type='text'
+                            onChange={e =>keepNewText(e)}
                         />
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" type='submit'>
+                        <Button variant="contained" color="primary" type='submit' onClick={addNewTask}>
                             Add
                         </Button>
                     </Grid>
                 </Grid>
             </form>
+            {toDoList.map((text, index) => {
 
-            <Grid container direction='column' spacing={2}>
-                {items.map(item => (
-                    <Grid
-                        item
-                        key={item.id}>
+                <Grid container direction='column' spacing={2}>
+                    <Grid item>
                         <Paper component={Box} p={2}>
                             <Grid container justifyContent='space-between' alignItems="center">
                                 <Grid item>
-                                    {item.name}
+                                    {text}
                                 </Grid>
                                 <Grid item>
-                                    <IconButton onClick={() => removeITem(item.id)}>
+                                    <IconButton id={index} onClick={e => deleteToDoList(e)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Grid>
                             </Grid>
                         </Paper>
                     </Grid>
-                ))}
-            </Grid>
+                </Grid>
+
+            })
+            }
         </Container>
     )
 }
