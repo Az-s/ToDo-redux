@@ -90,6 +90,6 @@ const ToDo = () => {
             ))}
         </Container>
     )
-}
+};
 
 export default ToDo;

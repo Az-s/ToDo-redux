@@ -31,7 +31,8 @@ const Counter = () => {
     // const addCounter = () => dispatch(add(5));
     // const decreaseCounter = () => dispatch(decrease());
     // const minusCounter = () => dispatch(subtract(5));
-
+    
+    //тут непонятно то работает то не работает 50/50
     return (
         <div className="Counter">
             <h1>{counter}</h1>
