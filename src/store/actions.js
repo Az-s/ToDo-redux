@@ -62,7 +62,6 @@ export const fetchPost = () => {
 };
 
 export const fetchList = () => {
-
     return async (dispatch) => {
         dispatch(fetchCounterRequest());
         try {
@@ -72,21 +71,20 @@ export const fetchList = () => {
             if (response.data === null) {
                 return;
             } else {
-                dispatch(fetchCounterSuccess(response.data));
+                dispatch(toDoListSuccess(Object.values(response.data)));
             }
         } catch (e) {
-            dispatch(toDoListSuccess(Object.values(response.data)));
+            dispatch(fetchCounterFailure());
         }
     }
 };
 
 export const postNewTask = () => {
-
     return async (dispatch, getState) => {
         dispatch(fetchCounterRequest());
         const state = getState().toDoList;
         try {
-            const response = await axios.put('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList.json', { task: state.toDoList })
+            const response = await axios.put('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList.json', { task: state.toDoList });
             dispatch(fetchCounterPost());
         } catch (e) {
             dispatch(fetchCounterFailure());

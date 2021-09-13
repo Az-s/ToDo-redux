@@ -21,25 +21,26 @@ const ToDo = () => {
     const dispatch = useDispatch();
     const toDoList = useSelector(state => state.toDoList);
 
-    // useEffect(() => {
-    //     dispatch(fetchList());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchList());
+    }, [dispatch]);
 
-    const postNewTask = () => {
+    const onPostNewTask = () => {
         dispatch(postNewTask());
         dispatch(fetchPost());
     };
 
-    const keepNewText = (e) => {
+    const onKeepNewText = (e) => {
         dispatch(keepNewText(e.currentTarget.value));
     };
     
-    const addNewTask = () => {
+    const onAddNewTask = (e) => {
+        e.preventDefault();
         dispatch(addNewTask());
         dispatch(postNewTask());
     };
     
-    const deleteToDoList = (e) => {
+    const onDeleteToDoList = (e) => {
         dispatch(deleteTask(e.currentTarget.id));
         dispatch(deleteToDoList());
     };
@@ -48,7 +49,7 @@ const ToDo = () => {
     return (
         <Container maxWidth='md' className={classes.root}>
             <CssBaseline />
-            <form onSubmit={addNewTask}>
+            <form onSubmit={onAddNewTask}>
                 <Grid
                     container
                     spacing={2}
@@ -60,11 +61,11 @@ const ToDo = () => {
                             label="Task"
                             variant="outlined"
                             type='text'
-                            onChange={e =>keepNewText(e)}
+                            onChange={e =>onKeepNewText(e)}
                         />
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" color="primary" type='submit' onClick={addNewTask}>
+                        <Button variant="contained" color="primary" type='submit' onClick={onAddNewTask}>
                             Add
                         </Button>
                     </Grid>
@@ -80,7 +81,7 @@ const ToDo = () => {
                                     {text}
                                 </Grid>
                                 <Grid item>
-                                    <IconButton id={index} onClick={e => deleteToDoList(e)}>
+                                    <IconButton id={index} onClick={e => onDeleteToDoList(e)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Grid>
