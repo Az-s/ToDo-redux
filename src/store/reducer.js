@@ -14,7 +14,7 @@ import {
 } from "./actions";
 
 const initialState = {
-    counter: 100,
+    counter: 0,
     loading: false,
     error: null,
     toDoList: [],
@@ -66,11 +66,11 @@ const reducer = (state = initialState, action) => {
             };
         case DELETE_TODO:
             const id = action.index;
-            copy = state.toDoList;
-            copy.splice(id, 1);
+            let copys = state.toDoList;
+            copys.splice(id, 1);
             return {
                 ...state,
-                toDoList: copy,
+                toDoList: copys,
                 loading: true,
             };
         default:

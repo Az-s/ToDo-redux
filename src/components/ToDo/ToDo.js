@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchList, postNewTask , deleteToDoList , deleteTask , fetchPost , addNewTask, keepNewText} from "../../store/actions";
+import { fetchList, postNewTask, deleteToDoList, deleteTask, fetchPost, addNewTask, keepNewText } from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,18 +33,17 @@ const ToDo = () => {
     const onKeepNewText = (e) => {
         dispatch(keepNewText(e.currentTarget.value));
     };
-    
+
     const onAddNewTask = (e) => {
         e.preventDefault();
         dispatch(addNewTask());
         dispatch(postNewTask());
     };
-    
+
     const onDeleteToDoList = (e) => {
         dispatch(deleteTask(e.currentTarget.id));
         dispatch(deleteToDoList());
     };
-
 
     return (
         <Container maxWidth='md' className={classes.root}>
@@ -61,7 +60,7 @@ const ToDo = () => {
                             label="Task"
                             variant="outlined"
                             type='text'
-                            onChange={e =>onKeepNewText(e)}
+                            onChange={e => onKeepNewText(e)}
                         />
                     </Grid>
                     <Grid item>
@@ -71,9 +70,8 @@ const ToDo = () => {
                     </Grid>
                 </Grid>
             </form>
-            {toDoList.map((text, index) => {
-
-                <Grid container direction='column' spacing={2}>
+            {toDoList.map((text, index) => (
+                <Grid container direction='column' spacing={2} key={index} id={index}>
                     <Grid item>
                         <Paper component={Box} p={2}>
                             <Grid container justifyContent='space-between' alignItems="center">
@@ -89,9 +87,7 @@ const ToDo = () => {
                         </Paper>
                     </Grid>
                 </Grid>
-
-            })
-            }
+            ))}
         </Container>
     )
 }

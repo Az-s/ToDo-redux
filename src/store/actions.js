@@ -65,7 +65,7 @@ export const fetchList = () => {
     return async (dispatch) => {
         dispatch(fetchCounterRequest());
         try {
-            const response = await axios.get('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList/task.json');
+            const response = await axios.get('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList/tasks.json');
             dispatch(fetchCounterPost());
 
             if (response.data === null) {
@@ -82,9 +82,9 @@ export const fetchList = () => {
 export const postNewTask = () => {
     return async (dispatch, getState) => {
         dispatch(fetchCounterRequest());
-        const state = getState().toDoList;
+        const task = getState().toDoList;
         try {
-            const response = await axios.put('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList.json', { task: state.toDoList });
+            const response = await axios.put('https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList/tasks/.json', { ...task });
             dispatch(fetchCounterPost());
         } catch (e) {
             dispatch(fetchCounterFailure());
@@ -93,7 +93,8 @@ export const postNewTask = () => {
 };
 
 export const deleteToDoList = () => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
+        // await axios.delete(`https://az-sa-bd3f9-default-rtdb.firebaseio.com/toDoList/tasks/${id}.json`);
         dispatch(postNewTask());
     }
 };
